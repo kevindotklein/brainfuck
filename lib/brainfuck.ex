@@ -35,6 +35,14 @@ defmodule Brainfuck do
     run(rest, addr, mem, out <> (mem |> char_at(addr)))
   end
 
+  defp run(@bf_getc <> rest, addr, mem, out) do
+    v = case IO.getn("input: ", 2) do
+      :eof -> 0
+      c -> c
+    end
+    run(rest, addr, mem |> put_at(addr, v), out)
+  end
+
   defp inc_at(list, addr) do
     list |> List.update_at(addr, &(&1+1 |> rem(255)))
   end
@@ -44,5 +52,7 @@ defmodule Brainfuck do
   end
 
   defp char_at(list, addr), do: [list |> Enum.at(addr)] |> to_string
+
+  defp put_at(list, addr, value), do: list |> List.replace_at(addr, value |> String.to_charlist |> hd)
 
 end
