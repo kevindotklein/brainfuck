@@ -8,7 +8,6 @@ defmodule Brainfuck do
   @bf_getc ","
   @bf_lstr "["
   @bf_lend "]"
-  @empty   ""
 
   @spec run(binary()) :: {integer(), [integer()], binary()}
   def run(program) when is_binary(program), do: run(program, 0, List.duplicate(0, 255), "")
@@ -43,6 +42,19 @@ defmodule Brainfuck do
     run(rest, addr, mem |> put_at(addr, v), out)
   end
 
+  defp run(@bf_lstr <> rest, addr, mem, out) do
+    case mem |> Enum.at(addr) do
+      0 -> run(rest |> skip_lend, addr, mem, out)
+      _ ->
+        {a, m, o} = run(rest, addr, mem, out)
+        run(@bf_lstr <> rest, a, m, o)
+    end
+  end
+
+  defp run(@bf_lend <> _, addr, mem, out), do: {addr, mem, out}
+
+  defp run(<<_>> <> rest, addr, mem, out), do: run(rest, addr, mem, out)
+
   defp inc_at(list, addr) do
     list |> List.update_at(addr, &(&1+1 |> rem(255)))
   end
@@ -54,5 +66,8 @@ defmodule Brainfuck do
   defp char_at(list, addr), do: [list |> Enum.at(addr)] |> to_string
 
   defp put_at(list, addr, value), do: list |> List.replace_at(addr, value |> String.to_charlist |> hd)
+
+  defp skip_lend(@bf_lend <> rest), do: rest
+  defp skip_lend(<<_>> <> rest), do: skip_lend(rest)
 
 end
