@@ -1,21 +1,22 @@
-# Brainfuck
+# brainfuck
 
-**TODO: Add description**
+## running brainfuck programs through repl
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `brainfuck` to your list of dependencies in `mix.exs`:
+`iex -S mix`
 
 ```elixir
-def deps do
-  [
-    {:brainfuck, "~> 0.1.0"}
-  ]
-end
+iex> Brainfuck.run ",+." # put the next ASCII character taken as input in out buffer
+     # => returns a tuple with the current address, memory tape and the out buffer
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/brainfuck>.
+## interpreting brainfuck from a file
 
+`iex -S mix`
+
+```elixir
+iex> Cli.Reader.read_brainfuck "./examples/hello_world.b"
+     # => return the out buffer
+```
+
+### todo
+- [ ] nested loops
