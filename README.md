@@ -15,7 +15,8 @@ iex> Brainfuck.run ",+." # put the next ASCII character taken as input in out bu
 
 ```elixir
 iex> Cli.Reader.read_brainfuck "./examples/hello_world.b"
-     # => return the out buffer
+     # Hello, World!
+     # => prints the out buffer
 ```
 
 ### todo
