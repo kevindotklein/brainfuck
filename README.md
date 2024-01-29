@@ -1,4 +1,5 @@
 # brainfuck
+[brainfuck ref](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a)
 
 ## running brainfuck programs through repl
 
@@ -21,3 +22,4 @@ iex> Cli.Reader.read_brainfuck "./examples/hello_world.b"
 
 ### todo
 - [ ] nested loops
+- [ ] increase input buffer

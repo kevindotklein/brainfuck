@@ -69,7 +69,15 @@ defmodule Brainfuck do
 
   defp char_at(list, addr), do: [list |> Enum.at(addr)] |> to_string
 
-  defp put_at(list, addr, value), do: list |> List.replace_at(addr, value |> String.to_charlist |> hd)
+  defp put_at(list, addr, value) do
+    parsed = value |> String.to_charlist |> hd
+    if parsed in ?0..?9 do
+      list |> List.replace_at(addr, parsed - 48)
+    else
+      list |> List.replace_at(addr, parsed)
+    end
+
+  end
 
   defp skip_lend(@bf_lend <> rest), do: rest
   defp skip_lend(<<_>> <> rest), do: skip_lend(rest)

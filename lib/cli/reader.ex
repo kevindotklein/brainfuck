@@ -14,8 +14,11 @@ defmodule Cli.Reader do
   def read_brainfuck(path) do
     case File.read(path) do
       {:ok, content} ->
-        {_, _, out} = content |> Brainfuck.run
-        IO.puts(out)
+        {addr, mem, out} = content |> Brainfuck.run
+        IO.puts "addr: #{addr}"
+        IO.puts "mem:  #{mem |> Enum.join(" ")}"
+        IO.puts "out:  #{out}"
+        #{addr, mem |> Enum.join(" "), out} |> Tuple.to_list |> Enum.join("\n") |> IO.puts
       {:error, reason} ->
         IO.puts("error in reading file #{path}: #{reason}")
         :error
