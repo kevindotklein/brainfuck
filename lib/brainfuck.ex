@@ -47,7 +47,11 @@ defmodule Brainfuck do
       0 -> run(rest |> skip_lend, addr, mem, out)
       _ ->
         {a, m, o} = run(rest, addr, mem, out)
-        run(@bf_lstr <> rest, a, m, o)
+        if mem |> Enum.at(addr) == 0 do
+          run(rest |> skip_lend, addr, mem, out)
+        else
+          run(@bf_lstr <> rest, a, m, o)
+        end
     end
   end
 
